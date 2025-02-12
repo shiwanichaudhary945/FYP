@@ -1,0 +1,504 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Ubuntu:wght@200;300;400;600;700&display=swap');
+
+:root {
+    /**
+     * colors
+     */
+    --dark-jungle-green: hsl(188, 63%, 7%);
+    --prussian-blue: hsl(200, 69%, 14%);
+    --raisin-black-1: hsl(227, 29%, 13%);
+    --raisin-black-2: hsl(229, 17%, 19%);
+    --yellow-green: hsl(89, 72%, 45%);
+    --orange-soda: hsl(9, 63%, 62%);
+    --cultured-1: hsl(0, 0%, 93%);
+    --cultured-2: hsl(192, 24%, 96%);
+    --misty-rose: hsl(7, 56%, 91%);
+    --alice-blue: hsl(210, 100%, 97%);
+    --seashell: hsl(8, 100%, 97%);
+    --cadet: hsl(200, 15%, 43%);
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(0, 0%, 0%);
+    --opal: hsl(180, 20%, 62%);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+}
+
+.room-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.room-images .main-image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.thumbnail-images {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.thumbnail-images img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.thumbnail-images img:hover {
+    border-color: #007BFF;
+}
+
+.room-description {
+    margin-top: 20px;
+}
+
+.room-description h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.room-description .price {
+    font-size: 20px;
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+.room-description .location {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.map {
+    margin-top: 30px;
+}
+
+.reviews {
+    margin-top: 30px;
+}
+
+.review {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.review h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.review p {
+    margin: 5px 0;
+}
+
+.review .rating {
+    font-size: 1.2rem;
+}
+
+.star {
+    font-size: 2rem;
+    color: #ccc; /* Gray color for empty stars */
+    cursor: pointer;
+}
+
+.star.filled {
+    color: gold; /* Yellow color for filled stars */
+}
+
+/* Booking Form */
+.booking-form {
+    margin-top: -20px; /* Moves the form upwards */
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+
+.booking-form h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #2d3d4f;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.form-group {
+    width: 45%;
+    margin-bottom: 5px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+label {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 5px;
+    background-color: #f9f9f9;
+    transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #2d3d4f;
+    background-color: #fff;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    height: 120px;
+}
+
+
+/* Specific styling for the 'Book This Room' button */
+.booking-form button[type="submit"].book-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #2095ae;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.booking-form button[type="submit"].book-btn:hover {
+    background-color: #2095ae;
+}
+
+/* Keeping other buttons (like 'Submit Review') unaffected */
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Link Styling */
+a {
+    color: #2d3d4f;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive for Booking Form */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+}
+
+
+.review-section {
+    margin-top: 20px;
+}
+
+.review-section textarea {
+    width: 70%;  /* Set to a smaller width */
+    height: 80px;  /* Set to a smaller height */
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't affect the size */
+}
+
+
+.submit-review-btn {
+    background-color: #2095ae;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.room-container {
+    max-width: 100%;
+    margin: 20px 0;
+    padding: 20px;
+}
+
+.room-details-box {
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.room-details-box h1 {
+    margin-bottom: 10px; /* Space below the heading */
+    font-size: 2rem;
+    color: var(--prussian-blue); /* Darker text color for heading */
+}
+
+.room-details-box .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--orange-soda); /* Green for price */
+}
+
+.room-details-box .location {
+    margin-bottom: 15px;
+    color: var(--prussian-blue);
+}
+
+.room-details-box p {
+    margin: 0 0 20px;
+    line-height: 1.6;
+}
+
+.room-details-box h3 {
+    margin-top: 20px; /* Space above the heading */
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333; /* Darker text color for heading */
+}
+
+.amenities {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.amenities li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between items */
+    font-size: 1rem;
+    color: #333;
+}
+
+.amenities li i {
+    color: #1d8fa8; /* Green icon color */
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+
+.star {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+}
+.star.filled {
+    color: gold;
+}
+.review-section {
+    margin-top: 20px;
+}
+.review-section textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.submit-review {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.submit-review:hover {
+    background-color: #218838;
+}
+.room-details-box ul {
+    list-style-type: none;
+    padding: 0;
+}
+.room-details-box ul li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+.room-details-box ul li i {
+    margin-right: 10px;
+}
+
+/* Flexbox Layout */
+.room-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.room-details-box {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.details-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.amenities, .room-features {
+    flex: 0 0 45%; /* Take up 45% of the width each */
+}
+
+.amenities ul, .room-features ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.amenities ul li, .room-features ul li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.amenities ul li i, .room-features ul li i {
+    margin-right: 10px;
+}
+
+/* Room Features Section */
+.room-features ul li {
+display: flex;
+align-items: center;
+margin: 10px 0;
+}
+
+.room-features ul li i {
+font-size: 1.3rem; /* Ensure same icon size */
+color: #2095ae; /* Same icon color as amenities */
+}
+
+.rating {
+    display: flex;
+    gap: 5px;
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.rating .star {
+    transition: color 0.3s, transform 0.2s;
+}
+
+.rating .star:hover,
+.rating .star:hover ~ .star {
+    color: #ffcc00;
+    transform: scale(1.2);
+}
+
+.rating .selected {
+    color: #ffcc00;
+}
+
+/* CSS Grid Layout for Reviews */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 reviews per row */
+    gap: 20px; /* Space between reviews */
+    margin-top: 20px;
+}
+
+.review {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review p {
+    margin: 5px 0;
+}
+
+.review .review-rating {
+    font-weight: bold;
+}
+
+
+/* Style for the Star Rating */
+.review-rating {
+    color: #ffcc00; /* Gold color for filled stars */
+    font-size: 1.2rem;
+}
+
+.review-rating .fa-star {
+    margin-right: 2px; /* Space between stars */
+}
+
+.review-rating .filled {
+    color: #ffcc00; /* Filled stars are gold */
+}
+
+.review-rating .fa-star:not(.filled) {
+    color: #ddd; /* Empty stars are light gray */
+}
+/*
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #c3e6cb;
+    margin-bottom: 15px;
+} */
+
+@media (max-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: 1fr; /* Stack reviews in one column on small screens */
+    }
+}
+

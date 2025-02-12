@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Ubuntu:wght@200;300;400;600;700&display=swap');
+
+:root{
+    --primary-color: #2095ae;
+    --white-color: #fff;
+    --light-gray-color: #ddd;
+	--prussian-blue: hsl(200, 69%, 14%);
+	--raisin-black-1: hsl(227, 29%, 13%);
+	--raisin-black-2: hsl(229, 17%, 19%);
+	--orange-soda: hsl(9, 63%, 62%);
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "poppins", sans-serif;
+}
+
+.sec {
+    padding: 20px 0;
+}
+
+/* Flex container for the header */
+.head_1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+/* Ensure right side elements align properly */
+.right_head {
+    margin-left: auto;
+    margin-top: 25px;
+}
+
+/* Style for buttons */
+.right_head ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+}
+
+.right_head .btn {
+    background-color: #27a8c5;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.right_head .btn:hover {
+    background-color: #0f89a4;
+}
+
+/* Left heading section */
+.left_head .heading1 {
+    font-size: 2rem;
+    color: var(--prussian-blue);
+}
+
+.left_head .para {
+    font-size: 1rem;
+    color: var(--prussian-blue);
+}
+
+/* Container for the list boxes */
+.list_boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 90%;
+    margin: auto;
+    padding: 1% 0;
+    margin-top: -70px;
+}
+
+/* Each listing box */
+.list_box {
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    text-align: left;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.list_box:hover {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 20px;
+}
+
+/* Room image styling */
+.list_box img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.list_box img:hover {
+    transform: scale(1.05);
+}
+
+/* Text section inside the box */
+.list_text {
+    padding: 15px;
+    background: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+.list_text h2 {
+    color: var(--orange-soda);
+    padding-bottom: 12px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.list_text h2 .price-unit {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-left: 5px;
+    color: var(--orange-soda);
+    opacity: 0.8;
+}
+
+.list_text h1 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: var(--prussian-blue);
+}
+
+.list_text p {
+    font-size: 0.9rem;
+    color: var(--prussian-blue);
+}
+
+.list_text i {
+    color: var(--orange-soda);
+    margin-right: 7px;
+}
+
+/* Button styling for property */
+.property-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #27a8c5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.property-btn:hover {
+    background-color: #0f89a4;
+}
+
+/* Styling for the card footer */
+.card-footer {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Wishlist button styling */
+.wishlist-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+
+.wishlist-btn:hover {
+    background-color: #e63946;
+}
+
+.wishlist-btn i {
+    margin-right: 5px;
+}
+
+/* View Details button styling */
+.view-details-btn {
+    background-color: #27a8c5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+.view-details-btn:hover {
+    background-color: #0f89a4;
+}
+
+/* Subtitle with a rounded background */
+.section-subtitle {
+    color: var(--orange-soda);
+    font-size: var(--fs-5);
+    font-weight: var(--fw-600);
+    padding: 5px 20px;
+    background: hsla(9, 100%, 62%, 0.1);
+    width: max-content;
+    border-radius: 50px;
+    margin-inline: auto;
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+/* Title of the featured listing */
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    color: var(--prussian-blue);
+}
+
+/* Flex container for the header */
+.head_1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+/* Remove the underline from filter description */
+.filter-description p {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0; /* Remove the underline effect */
+}
+
+/* Add a full underline to the 'Filtered Rooms' heading */
+.left_head .heading1 {
+    font-size: 2rem;
+    color: var(--prussian-blue);
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    padding-bottom: 10px; /* Add space between text and the underline */
+}
+
+.left_head .heading1:after {
+    content: '';
+    position: absolute;
+    top: 45px; /* Adjust position slightly higher */
+    left: 0;
+    width: 100%; /* Full underline */
+    height: 2px;
+    background-color: var(--orange-soda); /* Underline color */
+    border-radius: 5px;
+}
+
+/* Filter description */
+.filter-description {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--prussian-blue);
+    margin-top: -25px;
+    margin-bottom: 120px;
+    font-weight: 400;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.filter-description:after {
+    content: '';
+    position: absolute;
+    bottom: 0; /* Position the underline just below the text */
+    left: 23%; /* Starting point from the left side */
+    right: 23%; /* Starting point from the right side */
+    height: 2px; /* Thickness of the underline */
+    background-color: var(--orange-soda); /* Underline color */
+    border-radius: 5px; /* Rounded edges of the underline */
+}
+
+
+/* Update the error message styling */
+.error-msg {
+    padding: 15px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.error-msg p {
+    margin: 0;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+}
