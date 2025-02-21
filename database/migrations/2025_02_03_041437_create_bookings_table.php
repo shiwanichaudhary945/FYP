@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('room_id')->constrained()->onDelete('cascade');
+            $table->foreignId('room_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->string('name');
             $table->string('email');
             $table->string('phone');
             $table->date('checkin_date');
             $table->integer('occupants');
             $table->string('payment_method');
-            $table->string('status')->default('pending'); // Add this line
+            $table->string('status')->default('pending');
+            $table->string('payment_token')->nullable(); // Khalti transaction ID
             $table->timestamps();
         });
     }

@@ -235,6 +235,23 @@ a:hover {
     }
 }
 
+/* Pay with Khalti Button */
+#payment-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #2095ae; /* Same as submit button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: none; /* Initially hidden */
+}
+
+/* #payment-button:hover {
+    background-color: #2095ae; 
+} */
 
 .review-section {
     margin-top: 20px;

@@ -84,10 +84,21 @@
             </ul>
 
             <ul class="logout-mode">
-                <li><a href="#">
+                {{-- <li><a href="#">
                     <i class="uil uil-signout"></i>
                     <span class="link-name">Logout</span>
-                </a></li>
+                </a></li> --}}
+
+                <li>
+                    <form id="logout-form" action="{{ route('logout.home') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+                
 
                 <li class="mode">
                     <a href="#">
@@ -118,7 +129,7 @@
                     <i class="uil uil-tachometer-fast-alt"></i>
                     <span class="text">Dashboard</span>
                 </div>
-                <div class="boxes">
+                {{-- <div class="boxes">
                     <div class="box box1">
                         <i class="uil uil-thumbs-up"></i>
                         <span class="text">Total Likes</span>
@@ -134,7 +145,7 @@
                         <span class="text">Total Share</span>
                         <span class="number">10,120</span>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

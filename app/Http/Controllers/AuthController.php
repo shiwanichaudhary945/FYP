@@ -94,4 +94,16 @@ class AuthController extends Controller
 
         return redirect('/'); // Redirect to the landing page
     }
+
+
+    public function logoutHome(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/home'); // Redirect to the landing page
+    }
+
+    
 }

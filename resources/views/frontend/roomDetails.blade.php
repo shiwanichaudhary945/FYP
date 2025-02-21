@@ -19,6 +19,7 @@
     </div>
 @endif --}}
 
+
             <!-- Room Images -->
             <div class="room-images">
                 @if($room->image)
@@ -32,12 +33,93 @@
                 </div>
             </div>
 
-            <div class="room-container">
+            {{-- <div class="room-container">
                 <div class="room-details-box">
+                    <form id="compareForm" action="{{ route('rooms.compare') }}" method="POST">
+                        @csrf
                     <h1>{{ $room->room_type }}</h1>
                     <p class="price">Price: Rs. {{ number_format($room->price) }}/Month</p>
                     <p class="location">Location: {{ $room->location }}</p>
-                    <p class="description">Description: {{ $room->description }}</p>
+                    <p class="description">Description: {{ $room->description }}</p> --}}
+
+                    <div class="room-container">
+                        <div class="room-details-box">
+                            <h1 style="display: flex; justify-content: space-between; align-items: center;">
+                                {{ $room->room_type }}
+                                <label for="compare" class="compare-checkbox" style="margin-left: 10px;">
+                                    <input type="checkbox" id="compare" name="compare" value="{{ $room->id }}">
+                                    Add to Compare
+                                </label>
+                            </h1>
+                            <p class="price">Price: Rs. {{ number_format($room->price) }}/Month</p>
+                            <p class="location">Location: {{ $room->location }}</p>
+                            <p class="description">Description: {{ $room->description }}</p>
+
+                             <!-- Message Box (Initially Hidden) -->
+<div id="compareMessageBox" class="alert alert-warning" style="display: none;" role="alert">
+    <span id="compareMessage"></span>
+</div>
+
+<!-- Compare Now Button -->
+<form id="compareForm" action="{{ route('rooms.compare') }}" method="GET">
+    <input type="hidden" name="rooms" id="compareRoomsInput">
+    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Compare Now</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let compareCheckboxes = document.querySelectorAll(".compare-checkbox"); // Ensure checkboxes have this class
+        let compareForm = document.getElementById("compareForm");
+        let compareRoomsInput = document.getElementById("compareRoomsInput");
+        let compareMessageBox = document.getElementById("compareMessageBox");
+        let compareMessage = document.getElementById("compareMessage");
+
+        compareCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                let roomId = this.value;
+                let selectedRooms = JSON.parse(sessionStorage.getItem("compareRooms")) || [];
+
+                if (this.checked) {
+                    if (!selectedRooms.includes(roomId)) {
+                        selectedRooms.push(roomId);
+                    }
+                } else {
+                    selectedRooms = selectedRooms.filter(id => id !== roomId);
+                }
+
+                sessionStorage.setItem("compareRooms", JSON.stringify(selectedRooms));
+
+                // Show message box dynamically
+                compareMessageBox.style.display = "block";
+
+                if (selectedRooms.length < 2) {
+                    compareMessage.textContent = "⚠️ Select at least 2 rooms to compare.";
+                    compareMessageBox.className = "alert alert-warning";
+                } else if (selectedRooms.length > 3) {
+                    compareMessage.textContent = "⚠️ You can only compare up to 3 rooms.";
+                    compareMessageBox.className = "alert alert-danger";
+                } else {
+                    compareMessage.textContent = `✅ Rooms Selected for Comparison: ${selectedRooms.length}`;
+                    compareMessageBox.className = "alert alert-success";
+                }
+            });
+        });
+
+        compareForm.addEventListener("submit", function (event) {
+            let selectedRooms = JSON.parse(sessionStorage.getItem("compareRooms")) || [];
+
+            if (selectedRooms.length < 2 || selectedRooms.length > 3) {
+                alert("Please select 2 or 3 rooms for comparison.");
+                event.preventDefault();
+            } else {
+                compareRoomsInput.value = selectedRooms.join(',');
+            }
+        });
+    });
+</script>
+
+                            
+                    
 
                     <div class="details-section">
                         <div class="amenities">
@@ -101,6 +183,7 @@
                             </ul>
                         </div>
                     </div>
+                    
 
 
             <!-- OpenStreetMap Section -->
@@ -153,39 +236,39 @@
 
             <div class="booking-form">
                 <h2>Book This Room</h2>
-
-                <form action="{{ route('bookings.store', $room->id) }}" method="POST">
+            
+                <form action="{{ route('bookings.store', $room->id) }}" method="POST" id="booking-form">
                     @csrf
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">Full Name:</label>
                             <input type="text" id="name" name="name" placeholder="Enter your full name" required>
                         </div>
-
+            
                         <div class="form-group">
                             <label for="email">Email Address:</label>
                             <input type="email" id="email" name="email" placeholder="Enter your email" required>
                         </div>
                     </div>
-
+            
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Phone Number:</label>
                             <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
                         </div>
-
+            
                         <div class="form-group">
                             <label for="checkin_date">Check-in Date:</label>
                             <input type="date" id="checkin_date" name="checkin_date" required>
                         </div>
                     </div>
-
+            
                     <div class="form-row">
                         <div class="form-group">
                             <label for="occupants">Number of Occupants:</label>
                             <input type="number" id="occupants" name="occupants" min="1" max="10" required>
                         </div>
-
+            
                         <div class="form-group">
                             <label for="payment_method">Preferred Payment Method:</label>
                             <select id="payment_method" name="payment_method" required>
@@ -195,11 +278,94 @@
                             </select>
                         </div>
                     </div>
-
-                    <button type="submit" class="book-btn">Submit Booking</button>
+            
+                    <!-- Normal Submit Button for Cash Payment -->
+                    <button type="submit" id="submit-button" class="book-btn">Submit Booking</button>
+            
+                    <!-- Khalti Payment Button -->
+                    <button type="button" id="payment-button" class="book-btn" style="display: none;">Pay with Khalti</button>
                 </form>
-
             </div>
+            
+            <!-- Include Khalti Script -->
+            <script src="https://unpkg.com/khalti-checkout-web@latest"></script>
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Check if Khalti script is loading
+                    console.log("Khalti script loaded!");
+            
+                    // Khalti Public Key
+                    var khaltiPublicKey = "{{ config('services.khalti.public_key') }}";
+                    console.log("Khalti Public Key:", khaltiPublicKey);
+            
+                    // Initialize Khalti Checkout
+                    var config = {
+                        "publicKey": khaltiPublicKey,
+                        "productIdentity": "{{ $room->id }}",
+                        "productName": "Room Booking",
+                        "productUrl": "{{ route('room.details', $room->id) }}",
+                        "paymentPreference": ["KHALTI"],
+                        "eventHandler": {
+                            onSuccess(payload) {
+                                console.log("Payment Success:", payload);
+                                alert("Payment Successful!");
+            
+                                // Send payment data to server via AJAX
+                                fetch("{{ route('khalti.verify') }}", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                    },
+                                    body: JSON.stringify(payload)
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        alert("Booking Confirmed!");
+                                        window.location.href = "{{ route('booking.success') }}";
+                                    } else {
+                                        alert("Payment verification failed.");
+                                    }
+                                })
+                                .catch(error => console.error("Error:", error));
+                            },
+                            onError(error) {
+                                console.error("Payment Error:", error);
+                                alert("Payment Failed!");
+                            },
+                            onClose() {
+                                console.log("Khalti payment closed.");
+                            }
+                        }
+                    };
+            
+                    var checkout = new KhaltiCheckout(config);
+            
+                    // Toggle Payment Buttons Based on Selection
+                    document.getElementById('payment_method').addEventListener('change', function() {
+                        let paymentButton = document.getElementById('payment-button');
+                        let submitButton = document.getElementById('submit-button');
+            
+                        if (this.value === 'khalti') {
+                            paymentButton.style.display = 'block';
+                            submitButton.style.display = 'none';
+                        } else {
+                            paymentButton.style.display = 'none';
+                            submitButton.style.display = 'block';
+                        }
+                    });
+            
+                    // Handle Pay with Khalti Button Click
+                    document.getElementById('payment-button').addEventListener('click', function() {
+                        checkout.show({amount: 1000 * 100}); // Amount in paisa (e.g., 1000 = Rs.10)
+                    });
+                });
+            </script>
+            
+            
+            
 
 
         </div>

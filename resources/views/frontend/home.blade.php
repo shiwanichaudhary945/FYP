@@ -49,6 +49,7 @@
                     <i class="fas fa-heart"></i>
                     <span class="wishlist-count">{{ session('wishlist_count', 0) }}</span>
                 </a>
+                
 
                 <!-- User Icon -->
                 <div class="user-icon">
@@ -285,11 +286,11 @@
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const wishlistButtons = document.querySelectorAll(".wishlist-btn");
-
+        
                 wishlistButtons.forEach(button => {
                     button.addEventListener("click", function () {
                         const roomId = this.getAttribute("data-room-id");
-
+        
                         fetch("{{ route('wishlist.add') }}", {
                             method: "POST",
                             headers: {
@@ -300,13 +301,15 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            alert(data.message); // Show success message
+                            // Update the wishlist count in the navbar
+                            document.querySelector('.wishlist-count').textContent = data.wishlistCount;
                         })
                         .catch(error => console.error("Error:", error));
                     });
                 });
             });
         </script>
+        
 
 
 

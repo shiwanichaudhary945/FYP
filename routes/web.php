@@ -19,7 +19,7 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'loginUser'])->name('loginUser');
 Route::post('/registerUser', [AuthController::class, 'registerUser'])->name('registerUser');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logoutHome'])->name('logout.home');
 
 
 // Logout Route
@@ -27,6 +27,15 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout')->middleware('auth');
+
+
+
+// Logout from the User Dashboard (Redirect to Landing Page)
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Logout from the Homepage (Redirect to Homepage)
+Route::post('/logout-home', [AuthController::class, 'logoutHome'])->name('logout.home')->middleware('auth');
+
 
 // Dashboard Route with Role-Based Logic
 // Route::get('/dashboard', [RoleController::class, 'redirectToDashboard'])->middleware('auth')->name('dashboard');
@@ -126,6 +135,54 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-use App\Http\Controllers\KhaltiPaymentController;
+use App\Http\Controllers\PaymentController;
 
-Route::post('/khalti/payment/verify', [KhaltiPaymentController::class, 'verify'])->name('khalti.verify');
+Route::post('/khalti-verify', [PaymentController::class, 'verify'])->name('khalti.verify');
+
+
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Http;
+
+// Route::post('/khalti/verify', function (Request $request) {
+//     $token = $request->input('token');
+//     $amount = $request->input('amount');
+
+//     $response = Http::withHeaders([
+//         'Authorization' => 'Key ' . env('KHALTI_SECRET_KEY')
+//     ])->post('https://khalti.com/api/v2/payment/verify/', [
+//         'token' => $token,
+//         'amount' => $amount
+//     ]);
+    
+//     if ($response->successful()) {
+//         // Update the booking to confirmed status
+//         Booking::where('room_id', $roomId)->update(['status' => 'confirmed']);
+//         return response()->json(['success' => true]);
+//     }
+    
+
+//     return response()->json(['success' => false], 400);
+// })->name('khalti.verify');
+
+Route::get('/booking/success', function () {
+    return view('khalti.booking_success'); // Create a Blade file for success message
+})->name('booking.success');
+
+
+
+
+// Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+// Route::post('/compare', [RoomController::class, 'compare'])->name('rooms.compare');
+
+
+Route::get('/compare-rooms', [RoomController::class, 'compare'])->name('rooms.compare');
+
+// Show the form to request a password reset link
+Route::get('forgot-password', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+// Send the password reset link to the user's email
+Route::post('forgot-password', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Reset the user's password
+Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [PasswordController::class, 'reset'])->name('password.update');

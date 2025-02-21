@@ -279,6 +279,16 @@ public function home()
 //     $rooms = Room::whereIn('id', $roomIds)->get();
 //     return view('frontend.rooms.compare', compact('rooms'));
 // }
+public function compare(Request $request)
+{
+    $roomIds = $request->query('rooms'); // Get from query parameters
+
+    $roomIdsArray = $roomIds ? explode(',', $roomIds) : [];
+
+    $rooms = Room::whereIn('id', $roomIdsArray)->get();
+
+    return view('frontend.rooms.compare', compact('rooms'));
+}
 
 
 }

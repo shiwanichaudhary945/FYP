@@ -38,10 +38,10 @@ class WishlistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Wishlist $wishlist)
-    {
-        //
-    }
+    // public function show(Wishlist $wishlist)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -70,18 +70,26 @@ class WishlistController extends Controller
 
 
 
-
-
-
-
     public function index()
     {
-        // $wishlist = Wishlist::where('user_id', Auth::id())->with('room')->get();
-        // return view('frontend.wishlist.index', compact('wishlist'));
         $user = auth()->user();
-    $wishlistItems = Wishlist::where('user_id', $user->id)->get();
-    return view('frontend.wishlist.index', compact('wishlistItems'));
+        $wishlistRooms = Wishlist::where('user_id', $user->id)->with('room')->get();
+        $wishlistCount = Wishlist::where('user_id', $user->id)->count();
+    
+        return view('frontend.wishlist.index', compact('wishlistRooms', 'wishlistCount'));
     }
+    
+
+
+
+    // public function index()
+    // {
+    //     // $wishlist = Wishlist::where('user_id', Auth::id())->with('room')->get();
+    //     // return view('frontend.wishlist.index', compact('wishlist'));
+    //     $user = auth()->user();
+    // $wishlistItems = Wishlist::where('user_id', $user->id)->get();
+    // return view('frontend.wishlist.index', compact('wishlistItems'));
+    // }
 
     public function addToWishlist(Request $request)
 {
@@ -121,6 +129,7 @@ public function store(Request $request)
 public function destroy($id)
 {
     $wishlist = Wishlist::where('user_id', Auth::id())->where('room_id', $id)->first();
+    
     if ($wishlist) {
         $wishlist->delete();
 
@@ -128,11 +137,20 @@ public function destroy($id)
         $wishlistCount = Wishlist::where('user_id', Auth::id())->count();
         Session::put('wishlist_count', $wishlistCount);
 
-        return back()->with('success', 'Room removed from wishlist!');
+        // Redirect back to the wishlist page with success message
+        return redirect()->route('wishlist.index')->with('success', 'Room removed from wishlist!');
     }
 
-    return back()->with('error', 'Room not found in wishlist');
+    return redirect()->route('wishlist.index')->with('error', 'Room not found in wishlist');
 }
+
+
+public function show($id) {
+    $room = Room::findOrFail($id);
+    return view('frontend.roomDetails', compact('room'));
+}
+
+
 
 }
 
