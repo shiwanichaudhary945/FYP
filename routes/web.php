@@ -177,6 +177,8 @@ Route::get('/booking/success', function () {
 
 Route::get('/compare-rooms', [RoomController::class, 'compare'])->name('rooms.compare');
 
+
+use App\Http\Controllers\PasswordController;
 // Show the form to request a password reset link
 Route::get('forgot-password', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
 
