@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('admin.dashboard');
 
     Route::get('/landlord/dashboard', function () {
-        return view('backend.dashboard.app');  // Landlord dashboard
+        return view('backend.dashboard.landlord');  // Landlord dashboard
     })->name('landlord.dashboard');
 
     // Route::get('/homepage', function () {
@@ -153,13 +153,13 @@ Route::post('/khalti-verify', [PaymentController::class, 'verify'])->name('khalt
 //         'token' => $token,
 //         'amount' => $amount
 //     ]);
-    
+
 //     if ($response->successful()) {
 //         // Update the booking to confirmed status
 //         Booking::where('room_id', $roomId)->update(['status' => 'confirmed']);
 //         return response()->json(['success' => true]);
 //     }
-    
+
 
 //     return response()->json(['success' => false], 400);
 // })->name('khalti.verify');
@@ -180,11 +180,13 @@ Route::get('/compare-rooms', [RoomController::class, 'compare'])->name('rooms.co
 
 use App\Http\Controllers\PasswordController;
 // Show the form to request a password reset link
-Route::get('forgot-password', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
+// Route::get('forgot-password', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
 
-// Send the password reset link to the user's email
-Route::post('forgot-password', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+// // Send the password reset link to the user's email
+// Route::post('forgot-password', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
-// Reset the user's password
-Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('reset-password', [PasswordController::class, 'reset'])->name('password.update');
+// // Reset the user's password
+// Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
+// Route::post('reset-password', [PasswordController::class, 'reset'])->name('password.update');
+
+Route::get('password/forgot', [PasswordController::class, 'forgotPasswordForm'])->name('password.forgot');

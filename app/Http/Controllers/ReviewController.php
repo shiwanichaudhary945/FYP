@@ -37,6 +37,16 @@ class ReviewController extends Controller
             'comment' => 'nullable|string',
         ]);
 
+        // Check if the user has already reviewed this room
+        $existingReview = Review::where('user_id', auth()->id())
+                                ->where('room_id', $room_id)
+                                ->first();
+
+        if ($existingReview) {
+            return back()->with('error', 'You have already reviewed this room.');
+        }
+
+        // Create the new review
         Review::create([
             'user_id' => auth()->id(),
             'room_id' => $room_id,
@@ -46,6 +56,7 @@ class ReviewController extends Controller
 
         return back()->with('success', 'Review added successfully!');
     }
+
 
     /**
      * Display the specified resource.

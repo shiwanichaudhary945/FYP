@@ -42,20 +42,20 @@
                     <p class="location">Location: {{ $room->location }}</p>
                     <p class="description">Description: {{ $room->description }}</p> --}}
 
-                    <div class="room-container">
-                        <div class="room-details-box">
-                            <h1 style="display: flex; justify-content: space-between; align-items: center;">
-                                {{ $room->room_type }}
-                                <label for="compare" class="compare-checkbox" style="margin-left: 10px;">
-                                    <input type="checkbox" id="compare" name="compare" value="{{ $room->id }}">
-                                    Add to Compare
-                                </label>
-                            </h1>
-                            <p class="price">Price: Rs. {{ number_format($room->price) }}/Month</p>
-                            <p class="location">Location: {{ $room->location }}</p>
-                            <p class="description">Description: {{ $room->description }}</p>
+                        <div class="room-container">
+                            <div class="room-details-box">
+                                <h1 style="display: flex; justify-content: space-between; align-items: center;">
+                                    {{ $room->room_type }}
+                                    <label for="compare" class="compare-checkbox" style="margin-left: 10px;">
+                                        <input type="checkbox" id="compare" name="compare" value="{{ $room->id }}">
+                                        Add to Compare
+                                    </label>
+                                </h1>
+                                <p class="price">Price: NPR. {{ number_format($room->price) }}/Month</p>
+                                <p class="location">Location: {{ $room->location }}</p>
+                                <p class="description">Description: {{ $room->description }}</p>
 
-                             <!-- Message Box (Initially Hidden) -->
+
 <div id="compareMessageBox" class="alert alert-warning" style="display: none;" role="alert">
     <span id="compareMessage"></span>
 </div>
@@ -118,8 +118,7 @@
     });
 </script>
 
-                            
-                    
+
 
                     <div class="details-section">
                         <div class="amenities">
@@ -183,7 +182,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
 
 
             <!-- OpenStreetMap Section -->
@@ -221,7 +220,6 @@
                 </div>
             </div>
 
-
                 <!-- Submit a Review -->
                 <div class="review-section">
                     <h3>Your Review</h3>
@@ -236,7 +234,7 @@
 
             <div class="booking-form">
                 <h2>Book This Room</h2>
-            
+
                 <form action="{{ route('bookings.store', $room->id) }}" method="POST" id="booking-form">
                     @csrf
                     <div class="form-row">
@@ -244,61 +242,61 @@
                             <label for="name">Full Name:</label>
                             <input type="text" id="name" name="name" placeholder="Enter your full name" required>
                         </div>
-            
+
                         <div class="form-group">
                             <label for="email">Email Address:</label>
                             <input type="email" id="email" name="email" placeholder="Enter your email" required>
                         </div>
                     </div>
-            
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Phone Number:</label>
                             <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
                         </div>
-            
+
                         <div class="form-group">
                             <label for="checkin_date">Check-in Date:</label>
                             <input type="date" id="checkin_date" name="checkin_date" required>
                         </div>
                     </div>
-            
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="occupants">Number of Occupants:</label>
                             <input type="number" id="occupants" name="occupants" min="1" max="10" required>
                         </div>
-            
+
                         <div class="form-group">
                             <label for="payment_method">Preferred Payment Method:</label>
                             <select id="payment_method" name="payment_method" required>
-                                <option value="" disabled selected>Select a payment method</option>
+                                <option value="" selected>Select a payment method</option>
                                 <option value="khalti">Khalti</option>
-                                <option value="cash">Cash on Arrival</option>
+                                {{-- <option value="cash">Cash on Arrival</option> --}}
                             </select>
                         </div>
                     </div>
-            
+
                     <!-- Normal Submit Button for Cash Payment -->
                     <button type="submit" id="submit-button" class="book-btn">Submit Booking</button>
-            
+
                     <!-- Khalti Payment Button -->
                     <button type="button" id="payment-button" class="book-btn" style="display: none;">Pay with Khalti</button>
                 </form>
             </div>
-            
+
             <!-- Include Khalti Script -->
             <script src="https://unpkg.com/khalti-checkout-web@latest"></script>
-            
+
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     // Check if Khalti script is loading
                     console.log("Khalti script loaded!");
-            
+
                     // Khalti Public Key
                     var khaltiPublicKey = "{{ config('services.khalti.public_key') }}";
                     console.log("Khalti Public Key:", khaltiPublicKey);
-            
+
                     // Initialize Khalti Checkout
                     var config = {
                         "publicKey": khaltiPublicKey,
@@ -310,7 +308,7 @@
                             onSuccess(payload) {
                                 console.log("Payment Success:", payload);
                                 alert("Payment Successful!");
-            
+
                                 // Send payment data to server via AJAX
                                 fetch("{{ route('khalti.verify') }}", {
                                     method: "POST",
@@ -340,14 +338,14 @@
                             }
                         }
                     };
-            
+
                     var checkout = new KhaltiCheckout(config);
-            
+
                     // Toggle Payment Buttons Based on Selection
                     document.getElementById('payment_method').addEventListener('change', function() {
                         let paymentButton = document.getElementById('payment-button');
                         let submitButton = document.getElementById('submit-button');
-            
+
                         if (this.value === 'khalti') {
                             paymentButton.style.display = 'block';
                             submitButton.style.display = 'none';
@@ -356,16 +354,16 @@
                             submitButton.style.display = 'block';
                         }
                     });
-            
+
                     // Handle Pay with Khalti Button Click
                     document.getElementById('payment-button').addEventListener('click', function() {
                         checkout.show({amount: 1000 * 100}); // Amount in paisa (e.g., 1000 = Rs.10)
                     });
                 });
             </script>
-            
-            
-            
+
+
+
 
 
         </div>

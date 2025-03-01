@@ -235,7 +235,7 @@
                 <div class="list_box">
                     <img src="{{ asset($room->image) }}" alt="Room Image">
                     <div class="list_text">
-                        <h2>Rs. {{ number_format($room->price) }}<span class="price-unit">/Month</span></h2>
+                        <h2>NPR. {{ number_format($room->price) }}<span class="price-unit">/Month</span></h2>
                         <h1>{{ $room->room_type }}</h1>
                         <p><i class="ri-map-pin-2-fill"></i> {{ $room->location }}</p>
                     </div>

@@ -52,16 +52,16 @@
                             Dashboard
                         </a>
 
-                        <a class="nav-link" href="{{ route('landlord.index') }}">
+                        {{-- <a class="nav-link" href="{{ route('landlord.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
                             Landlord
-                        </a>
+                        </a> --}}
 
 
-                        {{-- <a class="nav-link" href="{{ route('room.index') }}">
+                        <a class="nav-link" href="{{ route('room.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-door-open"></i></div>
                             Room
-                        </a> --}}
+                        </a>
 
                     </div>
                 </div>

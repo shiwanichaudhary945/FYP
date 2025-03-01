@@ -12,12 +12,6 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    public function sendPasswordResetNotification($token)
-{
-    $this->notify(new CustomResetPasswordNotification($token, $this->email));
-}
-
-
     /**
      * The attributes that are mass assignable.
      *
