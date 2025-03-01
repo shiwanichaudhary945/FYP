@@ -168,6 +168,9 @@ Route::get('/booking/success', function () {
     return view('khalti.booking_success'); // Create a Blade file for success message
 })->name('booking.success');
 
+use App\Http\Controllers\MessagesController;
+
+Route::get('/messages', [MessagesController::class, 'index']);
 
 
 
