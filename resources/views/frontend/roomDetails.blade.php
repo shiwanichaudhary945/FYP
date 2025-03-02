@@ -272,101 +272,14 @@
                             <select id="payment_method" name="payment_method" required>
                                 <option value="" selected>Select a payment method</option>
                                 <option value="khalti">Khalti</option>
-                                {{-- <option value="cash">Cash on Arrival</option> --}}
                             </select>
                         </div>
                     </div>
 
-                    <!-- Normal Submit Button for Cash Payment -->
-                    <button type="submit" id="submit-button" class="book-btn">Submit Booking</button>
-
-                    <!-- Khalti Payment Button -->
-                    <button type="button" id="payment-button" class="book-btn" style="display: none;">Pay with Khalti</button>
+                    <button type="button" id="khalti-payment-btn" class="book-btn">Pay with Khalti</button>
                 </form>
             </div>
 
-            <!-- Include Khalti Script -->
-            <script src="https://unpkg.com/khalti-checkout-web@latest"></script>
-
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    // Check if Khalti script is loading
-                    console.log("Khalti script loaded!");
-
-                    // Khalti Public Key
-                    var khaltiPublicKey = "{{ config('services.khalti.public_key') }}";
-                    console.log("Khalti Public Key:", khaltiPublicKey);
-
-                    // Initialize Khalti Checkout
-                    var config = {
-                        "publicKey": khaltiPublicKey,
-                        "productIdentity": "{{ $room->id }}",
-                        "productName": "Room Booking",
-                        "productUrl": "{{ route('room.details', $room->id) }}",
-                        "paymentPreference": ["KHALTI"],
-                        "eventHandler": {
-                            onSuccess(payload) {
-                                console.log("Payment Success:", payload);
-                                alert("Payment Successful!");
-
-                                // Send payment data to server via AJAX
-                                fetch("{{ route('khalti.verify') }}", {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                                    },
-                                    body: JSON.stringify(payload)
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        alert("Booking Confirmed!");
-                                        window.location.href = "{{ route('booking.success') }}";
-                                    } else {
-                                        alert("Payment verification failed.");
-                                    }
-                                })
-                                .catch(error => console.error("Error:", error));
-                            },
-                            onError(error) {
-                                console.error("Payment Error:", error);
-                                alert("Payment Failed!");
-                            },
-                            onClose() {
-                                console.log("Khalti payment closed.");
-                            }
-                        }
-                    };
-
-                    var checkout = new KhaltiCheckout(config);
-
-                    // Toggle Payment Buttons Based on Selection
-                    document.getElementById('payment_method').addEventListener('change', function() {
-                        let paymentButton = document.getElementById('payment-button');
-                        let submitButton = document.getElementById('submit-button');
-
-                        if (this.value === 'khalti') {
-                            paymentButton.style.display = 'block';
-                            submitButton.style.display = 'none';
-                        } else {
-                            paymentButton.style.display = 'none';
-                            submitButton.style.display = 'block';
-                        }
-                    });
-
-                    // Handle Pay with Khalti Button Click
-                    document.getElementById('payment-button').addEventListener('click', function() {
-                        checkout.show({amount: 1000 * 100}); // Amount in paisa (e.g., 1000 = Rs.10)
-                    });
-                });
-            </script>
-
-
-
-
-
-        </div>
     </section>
 
     <!-- Lightbox for Images -->
@@ -431,5 +344,7 @@
 
 
     </script>
+
+    
 </body>
 </html>

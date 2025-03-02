@@ -16,9 +16,9 @@ return new class extends Migration
             // $table->string('transaction_id')->unique();
             // $table->integer('amount');
             // $table->string('status');
-            $table->string('user_id')->nullable();
-            $table->string('token');
-            $table->integer('amount');
+            $table->string('user_id')->nullable();  // You might want to use 'unsignedBigInteger' for user_id if it's related to a users table
+            $table->string('token');  // Payment token from Khalti
+            $table->integer('amount');  // Amount paid in paisa (integer type for accurate calculations)
             $table->timestamps();
         });
     }

@@ -135,42 +135,15 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-use App\Http\Controllers\PaymentController;
+// use App\Http\Controllers\PaymentController;
 
-Route::post('/khalti-verify', [PaymentController::class, 'verify'])->name('khalti.verify');
-
-
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Http;
-
-// Route::post('/khalti/verify', function (Request $request) {
-//     $token = $request->input('token');
-//     $amount = $request->input('amount');
-
-//     $response = Http::withHeaders([
-//         'Authorization' => 'Key ' . env('KHALTI_SECRET_KEY')
-//     ])->post('https://khalti.com/api/v2/payment/verify/', [
-//         'token' => $token,
-//         'amount' => $amount
-//     ]);
-
-//     if ($response->successful()) {
-//         // Update the booking to confirmed status
-//         Booking::where('room_id', $roomId)->update(['status' => 'confirmed']);
-//         return response()->json(['success' => true]);
-//     }
+// Route::post('/khalti-verify', [PaymentController::class, 'verify'])->name('khalti.verify');
 
 
-//     return response()->json(['success' => false], 400);
-// })->name('khalti.verify');
+// // Route::get('/booking/success', function () {
+// //     return view('khalti.booking_success'); // Create a Blade file for success message
+// // })->name('booking.success');
 
-Route::get('/booking/success', function () {
-    return view('khalti.booking_success'); // Create a Blade file for success message
-})->name('booking.success');
-
-use App\Http\Controllers\MessagesController;
-
-Route::get('/messages', [MessagesController::class, 'index']);
 
 
 

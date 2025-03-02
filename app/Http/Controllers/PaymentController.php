@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use App\Models\Booking;
+use Illuminate\Support\Facades\Http;
+
+
 
 class PaymentController extends Controller
 {
@@ -63,40 +67,41 @@ class PaymentController extends Controller
         //
     }
 
-    public function verify(Request $request)
-    {
-        $token = $request->token;
-        $amount = $request->amount; // Amount in paisa
-        $roomId = $request->room_id;
+//     public function verify(Request $request)
+//     {
+//         $token = $request->token;
+//         $amount = $request->amount; // Amount in paisa
+//         $roomId = $request->room_id; // Ensure this is passed from the frontend
 
-        // Make a request to Khalti for verification
-        $response = Http::withHeaders([
-            'Authorization' => 'Key ' . config('services.khalti.secret_key'),
-        ])->post('https://khalti.com/api/v2/payment/verify/', [
-            'token' => $token,
-            'amount' => $amount,
-        ]);
+//         // Make a request to Khalti for verification
+//         $response = Http::withHeaders([
+//             'Authorization' => 'Key ' . config('services.khalti.secret_key'),
+//         ])->post('https://khalti.com/api/v2/payment/verify/', [
+//             'token' => $token,
+//             'amount' => $amount,
+//         ]);
 
-        $data = $response->json();
+//         $data = $response->json();
 
-        if (isset($data['idx'])) {
-            // Payment is successful, save booking
-            Booking::create([
-                'room_id' => $roomId,
-                'user_id' => auth()->id(),
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'checkin_date' => $request->checkin_date,
-                'occupants' => $request->occupants,
-                'payment_method' => 'khalti',
-                'status' => 'confirmed',
-                'payment_token' => $token, // Save Khalti transaction ID
-            ]);
+//         // Check if the payment is successful
+//         if (isset($data['idx'])) {
+//             // Payment is successful, save booking
+//             Booking::create([
+//                 'room_id' => $roomId,
+//                 'user_id' => auth()->id(),
+//                 'name' => $request->name,
+//                 'email' => $request->email,
+//                 'phone' => $request->phone,
+//                 'checkin_date' => $request->checkin_date,
+//                 'occupants' => $request->occupants,
+//                 'payment_method' => 'khalti',
+//                 'status' => 'confirmed',
+//                 'payment_token' => $token, // Save Khalti transaction ID
+//             ]);
 
-            return response()->json(['success' => true, 'message' => 'Payment verified, booking confirmed!']);
-        }
+//             return response()->json(['success' => true, 'message' => 'Payment verified, booking confirmed!']);
+//         }
 
-        return response()->json(['success' => false, 'message' => 'Payment verification failed.']);
-    }
+//         return response()->json(['success' => false, 'message' => 'Payment verification failed.']);
+//     }
 }
