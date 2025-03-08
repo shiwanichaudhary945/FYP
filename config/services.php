@@ -2,6 +2,12 @@
 
 return [
 
+//   'khalti' => [
+//     'public_key' => env('KHALTI_PUBLIC_KEY'),
+//     'secret_key' => env('KHALTI_SECRET_KEY'),
+// ],
+
+
 
     /*
     |--------------------------------------------------------------------------

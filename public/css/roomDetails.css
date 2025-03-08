@@ -188,7 +188,6 @@ textarea {
     height: 120px;
 }
 
-
 /* Specific styling for the 'Book This Room' button */
 .booking-form button[type="submit"].book-btn {
     width: 100%;
@@ -203,10 +202,8 @@ textarea {
 }
 
 .booking-form button[type="submit"].book-btn:hover {
-    background-color: #2095ae;
+    background-color: #1a7d8b; /* Adjusted hover color for better feedback */
 }
-
-/* Keeping other buttons (like 'Submit Review') unaffected */
 
 /* Checkbox Styling */
 input[type="checkbox"] {
@@ -228,7 +225,6 @@ a:hover {
 @media (max-width: 768px) {
     .form-row {
         flex-direction: column;
-        align-items: stretch;
     }
 
     .form-group {
@@ -247,8 +243,10 @@ a:hover {
     font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    display: none; /* Initially hidden */
+    display: block; /* Make the button visible by default */
 }
+
+
 
 /* #payment-button:hover {
     background-color: #2095ae;

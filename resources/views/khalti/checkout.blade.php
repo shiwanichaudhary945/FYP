@@ -147,7 +147,7 @@
              }
          }
      };
- 
+
      var checkout = new KhaltiCheckout(config);
      document.getElementById("payment-button").onclick = function () {
          checkout.show({ amount: 1000 }); // Amount in paisa (Rs. 10)
@@ -167,9 +167,9 @@
   <body>
       <h2>Pay for Room: {{ $room->name }}</h2>
       <p>Price: Rs. {{ $room->price }}</p>
-  
+
       <button id="payment-button">Pay with Khalti</button>
-  
+
       <script>
           var config = {
               publicKey: "{{ env('KHALTI_PUBLIC_KEY') }}",
@@ -209,7 +209,7 @@
                   }
               }
           };
-  
+
           var checkout = new KhaltiCheckout(config);
           document.getElementById("payment-button").onclick = function () {
               checkout.show({ amount: {{ $room->price * 100 }} }); // Convert to paisa

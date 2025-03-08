@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -12,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('landlords', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
+            $table->text('message');
             $table->timestamps();
-            // $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key to users table
-
         });
     }
 
@@ -28,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('landlords');
-
-
+        Schema::dropIfExists('messages');
     }
 };

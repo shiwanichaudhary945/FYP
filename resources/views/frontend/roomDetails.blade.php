@@ -8,6 +8,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    {{-- <script src="https://khalti.com/static/khalti-checkout.js"></script> --}}
+    <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+    <script>
+        console.log("Public Key: ", "{{ config('app.khalti_public_key') }}");
+    </script>
 </head>
 <body>
     <section class="room-details">
@@ -272,14 +278,155 @@
                             <select id="payment_method" name="payment_method" required>
                                 <option value="" selected>Select a payment method</option>
                                 <option value="khalti">Khalti</option>
+                                {{-- <option value="cash">Cash on Arrival</option> --}}
                             </select>
                         </div>
                     </div>
 
-                    <button type="button" id="khalti-payment-btn" class="book-btn">Pay with Khalti</button>
+                    {{-- <!-- Khalti Payment Button (Only) -->
+                    <button type="button" id="payment-button" class="book-btn">Pay with Khalti</button> --}}
+                    <button type="button" id="payment-button" class="book-btn">Pay with Khalti</button>
+                    {{-- <button id="payment-button">Pay with Khalti</button> --}}
                 </form>
             </div>
 
+            {{-- <script src="https://khalti.com/static/khalti-checkout.js"></script> --}}
+              <!-- Include Khalti Script -->
+              {{-- <script src="https://unpkg.com/khalti-checkout-web@latest"></script> --}}
+
+
+              {{-- <script src="https://cdn.khalti.com/js/khalti-checkout.js"></script> --}}
+
+
+              {{-- <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var roomPrice = {{ $room->price }} * 100; // Convert to paisa
+                    var roomType = "{{ $room->roomType }}"; // Get the room type dynamically
+
+                    if (!roomPrice || isNaN(roomPrice)) {
+                        console.error("Invalid room price:", roomPrice);
+                        alert("Invalid room price. Please check.");
+                        return;
+                    }
+
+                    var checkout = new KhaltiCheckout({
+                        publicKey: "test_public_key_bc709dd66c9a4c129d43cbeef11ba2ef",
+                        productIdentity: "{{ $room->id }}",
+                        productName: roomType || "Room Booking", // ✅ Use room type or fallback to "Room Booking"
+                        productUrl: "{{ route('room.details', ['id' => $room->id]) }}",
+                        paymentPreference: ["KHALTI"],
+                        eventHandler: {
+                            onSuccess(payload) {
+                                console.log("Payment Successful!", payload);
+                                fetch("{{ route('khalti.verifyPayment') }}", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                    },
+                                    body: JSON.stringify({
+                                        token: payload.token,
+                                        amount: roomPrice
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        alert("Payment successful!");
+                                        document.getElementById("booking-form").submit();
+                                    } else {
+                                        alert("Payment verification failed!");
+                                    }
+                                })
+                                .catch(error => console.error("Error:", error));
+                            },
+                            onError(error) {
+                                console.error("Payment Error:", error);
+                                alert("Payment failed! Please try again.");
+                            },
+                            onClose() {
+                                console.log("User closed the payment popup.");
+                            }
+                        }
+                    });
+
+                    var paymentButton = document.getElementById("payment-button");
+                    if (paymentButton) {
+                        paymentButton.addEventListener("click", function () {
+                            console.log("Opening Khalti checkout with amount:", roomPrice);
+                            checkout.show({ amount: roomPrice });
+                        });
+                    } else {
+                        console.error("Payment button not found!");
+                    }
+                });
+            </script> --}}
+
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script>
+
+            var config = {
+                // replace the publicKey with yours
+                "publicKey": "{{ config('app.khalti_public_key') }}",
+                "productIdentity": "1234567890",
+                "productName": "Luxury Room",
+                "productUrl": "http://127.0.0.1:8000/rooms/1",
+                "paymentPreference": [
+                    "KHALTI",
+                    "EBANKING",
+                    "MOBILE_BANKING",
+                    "CONNECT_IPS",
+                    "SCT",
+                    ],
+                "eventHandler": {
+                    onSuccess (payload) {
+                        // hit merchant api for initiating verfication
+                        $.ajax({
+                            type : 'POST',
+                            url : "{{ route('khalti.verifyPayment') }}",
+                            data: {
+                                token : payload.token,
+                                amount : payload.amount,
+                                "_token" : "{{ csrf_token() }}"
+                            },
+                            success : function(res){
+                                $.ajax({
+                                    type : "POST",
+                                    url : "{{ route('khalti.storePayment') }}",
+                                    data : {
+                                        response : res,
+                                        "_token" : "{{ csrf_token() }}"
+                                    },
+                                    success: function(res){
+                                        console.log('transaction successfull');
+                                    }
+                                });
+                                console.log(res);
+                            }
+                        });
+                        console.log(payload);
+                    },
+                    onError (error) {
+                        console.log(error);
+                    },
+                    onClose () {
+                        console.log('widget is closing');
+                    }
+                }
+            };
+
+            var checkout = new KhaltiCheckout(config);
+            var btn = document.getElementById("payment-button");
+            btn.onclick = function () {
+                // minimum transaction amount must be 10, i.e 1000 in paisa.
+                checkout.show({amount: 1000});
+            }
+        </script>
+
+
+
+        </div>
     </section>
 
     <!-- Lightbox for Images -->
@@ -344,7 +491,5 @@
 
 
     </script>
-
-    
 </body>
 </html>

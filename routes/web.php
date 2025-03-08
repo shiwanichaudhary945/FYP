@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -135,16 +136,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-// use App\Http\Controllers\PaymentController;
-
-// Route::post('/khalti-verify', [PaymentController::class, 'verify'])->name('khalti.verify');
-
-
-// // Route::get('/booking/success', function () {
-// //     return view('khalti.booking_success'); // Create a Blade file for success message
-// // })->name('booking.success');
-
-
 
 
 // Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
@@ -165,4 +156,52 @@ use App\Http\Controllers\PasswordController;
 // Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
 // Route::post('reset-password', [PasswordController::class, 'reset'])->name('password.update');
 
-Route::get('password/forgot', [PasswordController::class, 'forgotPasswordForm'])->name('password.forgot');
+// Route::get('password/forgot', [PasswordController::class, 'forgotPasswordForm'])->name('password.forgot');
+
+
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Http;
+
+// Route::post('/khalti/verify-payment', function (Request $request) {
+//     $response = Http::withHeaders([
+//         'Authorization' => 'Key test_secret_key_8082c016edb24b78b3138aae4763de35' // Replace with your secret key
+//     ])->post('https://khalti.com/api/v2/payment/verify/', [
+//         'token' => $request->token,
+//         'amount' => $request->amount
+//     ]);
+
+//     if ($response->successful()) {
+//         return response()->json(['success' => true]);
+//     } else {
+//         return response()->json(['success' => false]);
+//     }
+// })->name('khalti.verifyPayment');
+
+
+// Route::get('/payment/success', [KhaltiController::class, 'paymentSuccess'])->name('payment.success');
+
+
+
+Route::get('/check', function () {
+    return view('khalti.checkout');
+});
+Route::post('/khalti/verify-payment', [PaymentController::class, 'verifyPayment'])->name('khalti.verifyPayment');
+
+
+Route::post('/khalti/payment/store',[PaymentController::class,'storePayment'])->name('khalti.storePayment');
+
+
+// *Password Reset Routes*
+Route::get('/forgetPassword', [PasswordController::class, 'forgetPassword'])->name('Account.forgetpassword');
+Route::post('/send-reset-link', [PasswordController::class, 'sendResetLink']);
+Route::get('/reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('Account.resetPassword');
+Route::post('/processreset-password/{token}', [PasswordController::class, 'processResetPassword'])->name('Account.processResetPassword');
+
+
+use App\Http\Controllers\ChatsController;
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/messages/{receiver_id}', [ChatsController::class, 'fetchMessages']);
+    Route::post('/messages', [ChatsController::class, 'sendMessage']);
+});

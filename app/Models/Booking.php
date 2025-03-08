@@ -16,7 +16,7 @@ class Booking extends Model
     */
     protected $fillable = [
         'room_id', 'name', 'email', 'phone',
-        'checkin_date', 'occupants', 'payment_method','status','user_id'
+        'checkin_date', 'occupants', 'payment_method','status','user_id','payment_token'
     ];
 
     public function room()

@@ -43,13 +43,7 @@ class BookingController extends Controller
         ]);
 
         Booking::create([
-            // 'room_id' => $roomId,
-            // 'name' => $request->name,
-            // 'email' => $request->email,
-            // 'phone' => $request->phone,
-            // 'checkin_date' => $request->checkin_date,
-            // 'occupants' => $request->occupants,
-            // 'payment_method' => $request->payment_method,
+
             'room_id' => $roomId,
             'user_id' => auth()->id(), // Add this
             'name' => $request->name,

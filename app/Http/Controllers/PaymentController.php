@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use Illuminate\Http\Request;
-use App\Models\Booking;
-use Illuminate\Support\Facades\Http;
-
-
 
 class PaymentController extends Controller
 {
@@ -67,41 +63,40 @@ class PaymentController extends Controller
         //
     }
 
-//     public function verify(Request $request)
-//     {
-//         $token = $request->token;
-//         $amount = $request->amount; // Amount in paisa
-//         $roomId = $request->room_id; // Ensure this is passed from the frontend
+    public function verifyPayment(Request $request)
+    {
+        $token = $request->token;
 
-//         // Make a request to Khalti for verification
-//         $response = Http::withHeaders([
-//             'Authorization' => 'Key ' . config('services.khalti.secret_key'),
-//         ])->post('https://khalti.com/api/v2/payment/verify/', [
-//             'token' => $token,
-//             'amount' => $amount,
-//         ]);
+        $args = http_build_query(array(
+            'token' => $token,
+            'amount'  => 1000
+        ));
 
-//         $data = $response->json();
+        $url = "https://khalti.com/api/v2/payment/verify/";
 
-//         // Check if the payment is successful
-//         if (isset($data['idx'])) {
-//             // Payment is successful, save booking
-//             Booking::create([
-//                 'room_id' => $roomId,
-//                 'user_id' => auth()->id(),
-//                 'name' => $request->name,
-//                 'email' => $request->email,
-//                 'phone' => $request->phone,
-//                 'checkin_date' => $request->checkin_date,
-//                 'occupants' => $request->occupants,
-//                 'payment_method' => 'khalti',
-//                 'status' => 'confirmed',
-//                 'payment_token' => $token, // Save Khalti transaction ID
-//             ]);
+        # Make the call using API.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $secret_key = config('app.khalti_secret_key');
 
-//             return response()->json(['success' => true, 'message' => 'Payment verified, booking confirmed!']);
-//         }
+        $headers = ["Authorization: Key $secret_key"];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-//         return response()->json(['success' => false, 'message' => 'Payment verification failed.']);
-//     }
+        // Response
+        $response = curl_exec($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return $response;
+    }
+
+    public function storePayment(Request $request)
+    {
+        // $response = $request->response;
+        // store the data to database here
+        return response()->noContent();
+    }
 }
+
