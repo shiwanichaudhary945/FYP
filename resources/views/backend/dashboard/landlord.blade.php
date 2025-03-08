@@ -10,25 +10,26 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .chat-box {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.html">Room Finder</a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="#" method="GET">
-
-        </form>
-        <!-- Navbar-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Activity Log</a></li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
@@ -43,24 +44,20 @@
 
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-dark">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading"></div>
                         <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-
-                        {{-- <a class="nav-link" href="{{ route('landlord.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
-                            Landlord
-                        </a> --}}
-
-
                         <a class="nav-link" href="{{ route('room.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-door-open"></i></div>
                             Room
+                        </a>
+                        <a class="nav-link" href="{{ route('landlord.chat', ['user_id' => Auth::id()]) }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-comments"></i></div>
+                            Chat
                         </a>
 
                     </div>
@@ -68,21 +65,37 @@
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as: {{ Auth::user()->name ?? '' }}</div>
                 </div>
-
             </nav>
         </div>
         <div id="layoutSidenav_content">
             <main>
-                @yield('content')
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Chat</h1>
+                    <div class="card">
+                        <div class="card-header">
+                            Messages
+                        </div>
+                        <div class="card-body">
+                            <div class="chat-box" id="chat-box">
+                                @foreach($messages as $message)
+                                    <div class="mb-2">
+                                        <strong>{{ $message->user->name }}:</strong> {{ $message->message }}
+                                    </div>
+                                @endforeach
+                            </div>
+                            <form method="POST" action="{{ route('landlord.send.message') }}">
+                                @csrf
+                                <div class="input-group mt-3">
+                                    <input type="text" name="message" class="form-control" placeholder="Type a message..." required>
+                                    <button class="btn btn-primary" type="submit">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('assets/demo/chart-bar-demo.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

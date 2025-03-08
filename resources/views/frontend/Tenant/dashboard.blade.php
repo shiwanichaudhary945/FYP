@@ -52,10 +52,14 @@
                     <span class="link-name">Booking History</span>
                 </a></li>
 
-                <li><a href="#">
+                <li><a href="{{ route('chat.show', auth()->id()) }}">
                     <i class="uil uil-comments"></i>
                     <span class="link-name">Messages</span>
                 </a></li>
+
+
+
+
 
                 {{-- <li><a href="#">
                     <i class="uil uil-bell"></i>
@@ -98,7 +102,7 @@
                         <span class="link-name">Logout</span>
                     </a>
                 </li>
-                
+
 
                 <li class="mode">
                     <a href="#">
@@ -146,6 +150,9 @@
                         <span class="number">10,120</span>
                     </div>
                 </div> --}}
+
+
+
             </div>
         </div>
     </section>

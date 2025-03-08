@@ -204,4 +204,12 @@ use App\Http\Controllers\ChatsController;
 Route::middleware(['auth'])->group(function () {
     Route::get('/messages/{receiver_id}', [ChatsController::class, 'fetchMessages']);
     Route::post('/messages', [ChatsController::class, 'sendMessage']);
+
+
+    Route::get('/chat/{receiver_id}', [ChatsController::class, 'showChat'])->name('chat.show');
 });
+
+Route::get('/landlord/chat/{user_id}', [ChatsController::class, 'landlordChat'])->name('landlord.chat');
+Route::post('/chat/send', [ChatsController::class, 'sendMessage'])->name('chat.send');
+
+

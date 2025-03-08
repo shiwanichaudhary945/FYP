@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class ProfileController extends Controller
 {
@@ -19,11 +21,15 @@ class ProfileController extends Controller
 
     public function postindex()
     {
-        // Return the profile view with user data
+        // Get all users, excluding the logged-in user
+        $users = User::all(); // You can filter this query as needed, e.g., `->where('role_id', 2)` or whatever suits your logic
+
+        // Return the dashboard view with the users
         return view('frontend.Tenant.dashboard', [
-            // 'user' => Auth::user()
+            'users' => $users // Pass the users to the view
         ]);
     }
+
 
 
     public function update(Request $request)
