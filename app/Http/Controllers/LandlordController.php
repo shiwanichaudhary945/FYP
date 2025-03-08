@@ -130,5 +130,4 @@ class LandlordController extends Controller
 
         return redirect()->route('landlord.index')->with('success', 'Landlord deleted successfully.');
     }
-
 }

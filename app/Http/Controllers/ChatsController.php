@@ -30,7 +30,7 @@ class ChatsController extends Controller
 
         broadcast(new MessageSent($message))->toOthers();
 
-        return response()->json($message);
+        return response()->json(['message' => 'Message sent successfully']);
     }
 
     public function showChat($receiver_id)
@@ -56,8 +56,8 @@ public function landlordChat($user_id)
         ->orderBy('created_at', 'asc')
         ->get();
 
-       $receiver = User::find($user_id); // Ensure receiver exists
-return view('backend.dashboard.landlord', compact('messages', 'receiver'));
+        $receiver = User::find($user_id); // Ensure receiver exists
+        return view('backend.dashboard.landlord', compact('messages', 'receiver'));
 
 
 }
