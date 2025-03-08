@@ -1,4 +1,4 @@
-{{-- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div id="chat-container">
@@ -47,54 +47,4 @@
 
     loadMessages();
 </script>
-@endsection --}}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-</head>
-<body>
-    <div id="chat-box"></div>
-    <input type="text" id="message" placeholder="Type a message">
-    <button onclick="sendMessage()">Send</button>
-
-    <script>
-        var receiver_id = 2; // Change this dynamically
-        var sender_id = {{ auth()->id() }};
-
-        function fetchMessages() {
-            $.get(`/messages/${receiver_id}`, function(messages) {
-                $('#chat-box').html('');
-                messages.forEach(msg => {
-                    $('#chat-box').append(`<p>${msg.message}</p>`);
-                });
-            });
-        }
-
-        function sendMessage() {
-            let message = $('#message').val();
-            $.post('/messages', {
-                receiver_id: receiver_id,
-                message: message,
-                _token: $('meta[name="csrf-token"]').attr('content')
-            });
-            $('#message').val('');
-        }
-
-        var pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", { cluster: "{{ env('PUSHER_APP_CLUSTER') }}", encrypted: true });
-
-        var channel = pusher.subscribe(`private-chat.${receiver_id}`);
-        channel.bind('MessageSent', function(data) {
-            $('#chat-box').append(`<p>${data.message.message}</p>`);
-        });
-
-        fetchMessages();
-    </script>
-</body>
-</html>
+@endsection
