@@ -192,11 +192,11 @@ Route::post('/khalti/payment/store',[PaymentController::class,'storePayment'])->
 
 
 // *Password Reset Routes*
-Route::get('/forgetPassword', [PasswordController::class, 'forgetPassword'])->name('Account.forgetpassword');
-Route::post('/send-reset-link', [PasswordController::class, 'sendResetLink']);
-Route::get('/reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('Account.resetPassword');
-Route::post('/processreset-password/{token}', [PasswordController::class, 'processResetPassword'])->name('Account.processResetPassword');
-
+Route::get('/forgot-password', [PasswordController::class, 'showForgetPasswordForm'])->name('auth.forgetpassword');
+Route::post('/forgot-password', [PasswordController::class, 'SubmitForgetPasswordForm'])->name('auth.Submitforgetpassword');
+// Route::get('/reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('Account.resetPassword');
+// Route::post('/processreset-password/{token}', [PasswordController::class, 'processResetPassword'])->name('Account.processResetPassword');
+Route::get('/reset-password', [PasswordController::class, 'showResetPasswordForm'])->name('auth.showresetpassword');
 
 use App\Http\Controllers\ChatsController;
 

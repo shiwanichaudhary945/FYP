@@ -24,7 +24,7 @@
 </body>
 </html> --}}
 
-
+{{--
 @extends('layouts.app')
 
 @section('content')
@@ -60,4 +60,28 @@
             <button type="submit">Reset Password</button>
         </form>
     </div>
-@endsection
+@endsection --}}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>reset password</title>
+   <style>
+       </style>
+</head>
+<body>
+   <form method="POST" action="{{route('')}}">
+       @csrf
+       <input type="email" name="email" id="email" placeholder="Enter email">
+       <input type="password" name="password" id="password" placeholder="Enter password">
+       <input type="password" name="password_confirmation" id="confirmpassword" placeholder="confirm password">
+
+       <button type="submit">Reset password</button>
+   </form>
+
+</body>
+</html>

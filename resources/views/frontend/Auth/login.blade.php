@@ -48,7 +48,7 @@
             </div>
 
             <button type="submit" class="btn-submit">Login</button>
-            <a href="{{ route('Account.forgetpassword') }}">Forgot password?</a>
+            <a href="{{ route('auth.forgetpassword') }}">Forgot password?</a>
 
             <p>I don't have an account. <a href="{{ route('register') }}">Register</a></p>
         </form>
