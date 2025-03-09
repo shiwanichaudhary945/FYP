@@ -18,10 +18,6 @@
         <a class="navbar-brand ps-3" href="index.html">Room Finder</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="#" method="GET">
-
-        </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
@@ -47,36 +43,39 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading"></div>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
-                        </a>
-
-                        {{-- <a class="nav-link" href="{{ route('landlord.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
-                            Landlord
-                        </a> --}}
-
-
                         <a class="nav-link" href="{{ route('room.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-door-open"></i></div>
                             Room
                         </a>
-
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as: {{ Auth::user()->name ?? '' }}</div>
                 </div>
-
             </nav>
         </div>
+
         <div id="layoutSidenav_content">
             <main>
-                @yield('content')
+                <div class="container mt-4">
+                    <h3>Messages</h3>
+
+                    @foreach($messages as $message)
+                        <div class="card mb-2">
+                            <div class="card-header">
+                                From: {{ $message->sender->name }}
+                            </div>
+                            <div class="card-body">
+                                <p>{{ $message->message }}</p>
+                                <small>{{ $message->created_at->format('d M Y, h:i A') }}</small>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </main>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>

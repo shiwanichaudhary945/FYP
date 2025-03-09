@@ -213,3 +213,4 @@ Route::get('/landlord/chat/{user_id}', [ChatsController::class, 'landlordChat'])
 Route::post('/chat/send', [ChatsController::class, 'sendMessage'])->name('chat.send');
 
 
+Route::get('/landlord/messages', [ChatsController::class, 'landlordMessages'])->name('landlord.messages');
