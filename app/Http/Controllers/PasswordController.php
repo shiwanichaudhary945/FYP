@@ -104,7 +104,7 @@ public function SubmitForgetPasswordForm(Request $request)
     //     'mailSubject' => 'You have requested to reset your password', // Add a comma here
     // ];
 
-    Mail::send('auth.forgetpassword.email',['token'=>$token], function($message)use ($request){
+    Mail::send('frontend.Auth.email',['token'=>$token], function($message)use ($request){
         $message->to($request->mail);
         $message->subject('Request Password');
     });
